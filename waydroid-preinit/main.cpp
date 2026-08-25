@@ -196,6 +196,20 @@ int main(int argc, char **argv) {
     // Remount /proc/sysrq-trigger and /proc/sys (except /proc/sys/net) as read-only for security
     if (!remountProc()) return errno;
 
+    // Unregister binfmt_misc configs to prevent conflicts with native bridge
+    if (mount("binfmt_misc", "/proc/sys/fs/binfmt_misc", "binfmt_misc", MS_NODEV | MS_NOEXEC | MS_NOSUID, NULL) == 0) {
+        ofstream("/proc/sys/fs/binfmt_misc/arm_dyn") << "-1" << endl;
+        ofstream("/proc/sys/fs/binfmt_misc/arm_exe") << "-1" << endl;
+        ofstream("/proc/sys/fs/binfmt_misc/arm64_dyn") << "-1" << endl;
+        ofstream("/proc/sys/fs/binfmt_misc/arm64_exe") << "-1" << endl;
+
+        // Android will mount it again later, so unmount it now
+        if (umount("/proc/sys/fs/binfmt_misc") == -1) {
+            Log::err("Failed to unmount binfmt_misc: {}", strerror(errno));
+            return errno;
+        }
+    }
+
     // Write props back to waydroid.prop
     properties.saveProperties();
 }
