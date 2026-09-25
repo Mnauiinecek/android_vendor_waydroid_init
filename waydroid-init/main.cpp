@@ -25,9 +25,7 @@
 #define LOG_TAG "waydroid-init"
 
 #define DMABUF_SYSTEM_HEAP "/dev/dma_heap/system"
-#define EMPTY_VINTF_XML "/vendor/etc/vintf/manifest.disabled/empty_vintf.xml"
 #define EMPTY_PERMISSION_XML "/vendor/etc/permissions.disabled/empty_permission.xml"
-#define WAYDROID_HIDL_XML "/vendor/etc/vintf/manifest/manifest_waydroid.xml"
 #define WAYDROID_SETTINGS_FILE "/data/misc/waydroid_settings"
 
 using namespace android;
@@ -143,13 +141,10 @@ int main(int argc, char **argv) {
 
     if (hwcomposer == "drm_minigbm") {
         Log::info("Using drm_hwcomposer");
-        Utils::createBindMount(EMPTY_VINTF_XML, WAYDROID_HIDL_XML, MS_RDONLY);
-
         stopService("vendor.hwcomposer-2-1");
         startService("vendor.hwcomposer-2-4");
     } else if (hwcomposer == "redroid") {
         Log::info("Using redroid hwcomposer");
-        Utils::createBindMount(EMPTY_VINTF_XML, WAYDROID_HIDL_XML, MS_RDONLY);
     } else {
         Log::info("Using Waydroid hwcomposer");
         settings.updateSetting("ro.hardware.hwcomposer", "waydroid");

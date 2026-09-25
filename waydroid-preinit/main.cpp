@@ -31,6 +31,10 @@
 
 #define LOG_TAG "waydroid-preinit"
 
+#define EMPTY_VINTF_XML "/vendor/etc/vintf/manifest.disabled/empty_vintf.xml"
+#define EMPTY_PERMISSION_XML "/vendor/etc/permissions.disabled/empty_permission.xml"
+#define WAYDROID_HIDL_XML "/vendor/etc/vintf/manifest/manifest_waydroid.xml"
+
 using namespace std;
 
 static inline bool moveDockerEtc() {
@@ -208,6 +212,11 @@ int main(int argc, char **argv) {
             Log::err("Failed to unmount binfmt_misc: {}", strerror(errno));
             return errno;
         }
+    }
+
+    // Hide Waydroid HIDL manifest if needed
+    if (properties.getProperty("ro.hardware.hwcomposer") != "waydroid") {
+        Utils::createBindMount(EMPTY_VINTF_XML, WAYDROID_HIDL_XML, MS_RDONLY);
     }
 
     // Write props back to waydroid.prop
