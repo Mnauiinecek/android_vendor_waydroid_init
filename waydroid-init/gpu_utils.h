@@ -40,7 +40,7 @@ class GpuUtils {
             { "panfrost",    0, "mesa",  "panfrost",     "minigbm_gbm_mesa" },
             { "panthor",     0, "mesa",  "panfrost",     "minigbm_gbm_mesa" },
             { "imagination", 0, "mesa",  "powervr_mesa", "minigbm_gbm_mesa" },
-            { "amdgpu",      0, "mesa",  "radeon",       "minigbm"          },
+            { "amdgpu",      0, "mesa",  "radeon",       "minigbm_gbm_mesa" },
             { "raedon",      0, "mesa",  std::nullopt,   "minigbm_gbm_mesa" },
             { "virtio-pci",  0, "mesa",  "virtio",       "minigbm",         },
             { "tegra",       0, "mesa",  std::nullopt,   "minigbm_gbm_mesa" },
