@@ -41,10 +41,10 @@ WaydroidProp::WaydroidProp(const std::vector<std::string> &props) {
     }
 }
 
-std::string WaydroidProp::getProperty(const std::string &prop) const {
+std::string WaydroidProp::getProperty(const std::string &prop, const std::string &def) const {
     auto it = properties.find(prop);
     if (it != properties.end()) return it->second;
-    return "";
+    return def;
 }
 
 void WaydroidProp::setProperty(const std::string &prop, const std::string &value) {

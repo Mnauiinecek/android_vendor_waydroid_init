@@ -215,7 +215,7 @@ int main(int argc, char **argv) {
     }
 
     // Hide Waydroid HIDL manifest if needed
-    if (properties.getProperty("ro.hardware.hwcomposer") != "waydroid") {
+    if (properties.getProperty("ro.hardware.hwcomposer", "waydroid") != "waydroid") {
         Utils::createBindMount(EMPTY_VINTF_XML, WAYDROID_HIDL_XML, MS_RDONLY);
     }
 

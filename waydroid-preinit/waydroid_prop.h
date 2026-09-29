@@ -26,7 +26,7 @@ class WaydroidProp {
 
     public:
         WaydroidProp(const std::vector<std::string> &props);
-        std::string getProperty(const std::string &prop) const;
+        std::string getProperty(const std::string &prop, const std::string &def) const;
         void setProperty(const std::string &prop, const std::string &value);
         void saveProperties();
 };
