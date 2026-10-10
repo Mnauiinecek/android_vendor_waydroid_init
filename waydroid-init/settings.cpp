@@ -12,6 +12,8 @@
 #include <android-base/properties.h>
 
 #include "log.h"
+#include "utils.h"
+#include "android-uid.h"
 #include "settings.h"
 
 WaydroidSettings::WaydroidSettings(const std::string &settingsPath, bool overrideProps) {
@@ -21,6 +23,10 @@ WaydroidSettings::WaydroidSettings(const std::string &settingsPath, bool overrid
 
     this->overrideProps = overrideProps;
     Log::info("Using settings file: {}", settingsPath);
+
+    if (!Utils::setFilePermission(settingsPath, AID_ROOT, AID_SYSTEM, 0660)) {
+        Log::warn("Failed to setup file permission for {}", settingsPath);
+    }
 
     settingsFile.open(settingsPath);
     if (!settingsFile.is_open()) {
